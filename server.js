@@ -1,23 +1,61 @@
 const express = require("express");
+const axios = require("axios");
 const app = express();
 
 app.use(express.json());
 
-// TEST ROUTE
-app.get("/", (req, res) => {
-  res.send("Pi Server is running");
-});
+const PI_API_KEY = "SHYIRAMO_API_KEY_YAWE"; // ⚠️ from Pi Dev Portal
 
 // APPROVE
-app.post("/approve", (req, res) => {
-  console.log("APPROVE HIT", req.body);
-  res.json({ success: true });
+app.post("/approve", async (req, res) => {
+  const { paymentId } = req.body;
+
+  try {
+    await axios.post(
+      `https://api.minepi.com/v2/payments/${paymentId}/approve`,
+      {},
+      {
+        headers: {
+          Authorization: `Key ${PI_API_KEY}`
+        }
+      }
+    );
+
+    console.log("APPROVED:", paymentId);
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("APPROVE ERROR:", err.response?.data || err.message);
+    res.status(500).send("Error approving payment");
+  }
 });
 
 // COMPLETE
-app.post("/complete", (req, res) => {
-  console.log("COMPLETE HIT", req.body);
-  res.json({ success: true });
+app.post("/complete", async (req, res) => {
+  const { paymentId, txid } = req.body;
+
+  try {
+    await axios.post(
+      `https://api.minepi.com/v2/payments/${paymentId}/complete`,
+      { txid },
+      {
+        headers: {
+          Authorization: `Key ${PI_API_KEY}`
+        }
+      }
+    );
+
+    console.log("COMPLETED:", paymentId);
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("COMPLETE ERROR:", err.response?.data || err.message);
+    res.status(500).send("Error completing payment");
+  }
+});
+
+app.get("/", (req, res) => {
+  res.send("Pi Server running");
 });
 
 const PORT = process.env.PORT || 10000;
