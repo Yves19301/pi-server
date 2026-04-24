@@ -3,30 +3,24 @@ const app = express();
 
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
-
-// Test route
+// TEST ROUTE
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send("Pi Server is running");
 });
 
-// APPROVE payment
+// APPROVE
 app.post("/approve", (req, res) => {
-  const { paymentId } = req.body;
-  console.log("Approving:", paymentId);
-
-  // Here you should call Pi API (for now just simulate)
+  console.log("APPROVE HIT", req.body);
   res.json({ success: true });
 });
 
-// COMPLETE payment
+// COMPLETE
 app.post("/complete", (req, res) => {
-  const { paymentId, txid } = req.body;
-  console.log("Completing:", paymentId, txid);
-
+  console.log("COMPLETE HIT", req.body);
   res.json({ success: true });
 });
 
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log("Server running on port", PORT);
 });
