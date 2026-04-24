@@ -5,17 +5,18 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
+// TEST ROUTE
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-// APPROVE
+// APPROVE PAYMENT
 app.post("/approve", (req, res) => {
   console.log("Approve:", req.body);
   res.json({ success: true });
 });
 
-// COMPLETE
+// COMPLETE PAYMENT
 app.post("/complete", (req, res) => {
   console.log("Complete:", req.body);
   res.json({ success: true });
