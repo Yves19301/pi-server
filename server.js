@@ -4,9 +4,9 @@ const app = express();
 
 app.use(express.json());
 
-const PI_API_KEY = "SHYIRAMO_API_KEY_YAWE"; // ⚠️ from Pi Dev Portal
+const PI_API_KEY=// ⚠️ from Pi Dev Portal
 
-// APPROVE
+// APPROVEconst PI_API_KEY = process.env.PI_API_KEY;
 app.post("/approve", async (req, res) => {
   const { paymentId } = req.body;
 
