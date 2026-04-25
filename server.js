@@ -1,64 +1,32 @@
 const express = require("express");
-const axios = require("axios");
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
-const PI_API_KEY=// ⚠️ from Pi Dev Portal
-
-// APPROVEconst PI_API_KEY = process.env.PI_API_KEY;
-app.post("/approve", async (req, res) => {
-  const { paymentId } = req.body;
-
-  try {
-    await axios.post(
-      `https://api.minepi.com/v2/payments/${paymentId}/approve`,
-      {},
-      {
-        headers: {
-          Authorization: `Key ${PI_API_KEY}`
-        }
-      }
-    );
-
-    console.log("APPROVED:", paymentId);
-    res.json({ success: true });
-
-  } catch (err) {
-    console.error("APPROVE ERROR:", err.response?.data || err.message);
-    res.status(500).send("Error approving payment");
-  }
-});
-
-// COMPLETE
-app.post("/complete", async (req, res) => {
-  const { paymentId, txid } = req.body;
-
-  try {
-    await axios.post(
-      `https://api.minepi.com/v2/payments/${paymentId}/complete`,
-      { txid },
-      {
-        headers: {
-          Authorization: `Key ${PI_API_KEY}`
-        }
-      }
-    );
-
-    console.log("COMPLETED:", paymentId);
-    res.json({ success: true });
-
-  } catch (err) {
-    console.error("COMPLETE ERROR:", err.response?.data || err.message);
-    res.status(500).send("Error completing payment");
-  }
-});
-
+// TEST ROUTE
 app.get("/", (req, res) => {
-  res.send("Pi Server running");
+  res.send("Pi Server Running ✅");
 });
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+// APPROVE PAYMENT
+app.post("/approve", (req, res) => {
+  const { paymentId } = req.body;
+  console.log("Approve:", paymentId);
+
+  // Normally here you call Pi API with your API key
+
+  res.json({ success: true });
 });
+
+// COMPLETE PAYMENT
+app.post("/complete", (req, res) => {
+  const { paymentId, txid } = req.body;
+  console.log("Complete:", paymentId, txid);
+
+  res.json({ success: true });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running on port", PORT));
