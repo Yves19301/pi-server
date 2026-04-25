@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PI_API_KEY = "SHYIRAMWO_API_KEY_YAWE_HANO";
+const PI_API_KEY = "cx57ycdesy6vbgz04ukustswsi2k9fp1sz7fkr6rdhfcqhfxgngoauy4nrscwcqc";
 
 // APPROVE
 app.post("/approve", async (req, res) => {
