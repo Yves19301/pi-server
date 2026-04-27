@@ -6,34 +6,34 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Port for Render
 const PORT = process.env.PORT || 10000;
-
-// Pi API Key from Render Environment
 const PI_API_KEY = process.env.PI_API_KEY;
 
-// ==============================
-// HOME TEST
-// ==============================
+// ==========================
+// HOME
+// ==========================
 app.get("/", (req, res) => {
   res.send("Server is running ✅");
 });
 
-// ==============================
-// CHECK IF KEY EXISTS
-// ==============================
+// ==========================
+// CHECK ENV KEY
+// ==========================
 app.get("/check", (req, res) => {
-  if (PI_API_KEY) {
-    res.send("KEY FOUND ✅");
-  } else {
-    res.send("KEY MISSING ❌");
-  }
+  res.send(PI_API_KEY ? "KEY FOUND ✅" : "KEY MISSING ❌");
 });
 
-// ==============================
-// TEST PI API KEY
-// ==============================
-app.get("/test-key", async (req, res) => {
+// ==========================
+// SIMPLE TEST ROUTE
+// ==========================
+app.get("/test-key", (req, res) => {
+  res.send("ROUTE TEST OK ✅");
+});
+
+// ==========================
+// REAL PI KEY TEST
+// ==========================
+app.get("/pi-test", async (req, res) => {
   try {
     const response = await axios.get(
       "https://api.minepi.com/v2/me",
@@ -52,9 +52,9 @@ app.get("/test-key", async (req, res) => {
   }
 });
 
-// ==============================
+// ==========================
 // APPROVE PAYMENT
-// ==============================
+// ==========================
 app.post("/approve-payment", async (req, res) => {
   try {
     const { paymentId } = req.body;
@@ -71,17 +71,15 @@ app.post("/approve-payment", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.log(error.response?.data || error.message);
-
     res.status(500).json({
       error: error.response?.data || error.message
     });
   }
 });
 
-// ==============================
+// ==========================
 // COMPLETE PAYMENT
-// ==============================
+// ==========================
 app.post("/complete-payment", async (req, res) => {
   try {
     const { paymentId, txid } = req.body;
@@ -98,17 +96,13 @@ app.post("/complete-payment", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.log(error.response?.data || error.message);
-
     res.status(500).json({
       error: error.response?.data || error.message
     });
   }
 });
 
-// ==============================
-// START SERVER
-// ==============================
+// ==========================
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });
