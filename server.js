@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-const PI_API_KEY ="csmiqu5u3u8pcw6n7vylh0serbyacnehiwfuburanxsa1dq4vscitzuts86kfytm;
+const PI_API_KEY ="nudtxv8k4w1i2ndvrou3fukreraimcf95mstsksq0wyvewvpvs3zxy2etwizt4kj";
 
 app.post("/approve", async (req, res) => {
   const { paymentId } = req.body;
@@ -36,4 +36,7 @@ app.post("/complete", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
+});
