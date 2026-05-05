@@ -4,7 +4,6 @@ const axios = require("axios");
 
 const app = express();
 
-// 🔵 MIDDLEWARES
 app.use(cors());
 app.use(express.json());
 
@@ -18,7 +17,7 @@ app.post("/approve", async (req, res) => {
   const { paymentId } = req.body;
 
   try {
-    const response = await axios.post(
+    await axios.post(
       `https://api.minepi.com/v2/payments/${paymentId}/approve`,
       {},
       {
@@ -28,18 +27,12 @@ app.post("/approve", async (req, res) => {
       }
     );
 
-    return res.json({
-      success: true,
-      data: response.data
-    });
+    return res.json({ success: true });
 
   } catch (error) {
-    console.log("APPROVE ERROR:", error.response?.data || error.message);
+    console.log("APPROVE ERROR:", error.message);
 
-    return res.status(400).json({
-      success: false,
-      error: error.message
-    });
+    return res.json({ success: false });
   }
 });
 
@@ -48,7 +41,7 @@ app.post("/complete", async (req, res) => {
   const { paymentId, txid } = req.body;
 
   try {
-    const response = await axios.post(
+    await axios.post(
       `https://api.minepi.com/v2/payments/${paymentId}/complete`,
       { txid },
       {
@@ -58,18 +51,12 @@ app.post("/complete", async (req, res) => {
       }
     );
 
-    return res.json({
-      success: true,
-      data: response.data
-    });
+    return res.json({ success: true });
 
   } catch (error) {
-    console.log("COMPLETE ERROR:", error.response?.data || error.message);
+    console.log("COMPLETE ERROR:", error.message);
 
-    return res.status(400).json({
-      success: false,
-      error: error.message
-    });
+    return res.json({ success: false });
   }
 });
 
